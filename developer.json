@@ -138,7 +138,7 @@
             "title": "Plataforma Multientrega (Panamá)",
             "description": "Desarrollo backend para una plataforma logística. Mis responsabilidades incluyeron la implementación de nuevas funcionalidades críticas para la operación y el soporte técnico continuo de la plataforma.",
             
-            "tech": ["Node.js", "Express.js", "Backend"],
+            "tech": ["Node.js", "Express.js", "Backend","Angular"],
             "url": "https://multientregapanama.com/"
         }
     }
