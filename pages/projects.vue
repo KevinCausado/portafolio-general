@@ -24,7 +24,7 @@
 
         <div v-for="tech in techs" :key="tech.name" class="flex items-center py-2">
           <input type="checkbox" :id="tech.name" @click="filterProjects(tech.name)">
-          <img :id="'icon-tech-' + tech.name" :src="'/icons/techs/' + tech.icon + '.svg'" alt="" class="tech-icon w-5 h-5 mx-4">
+          <img :id="'icon-tech-' + tech.name" :src="baseURL + 'icons/techs/' + tech.icon + '.svg'" alt="" class="tech-icon w-5 h-5 mx-4">
           <label :for="tech.name" :id="'title-tech-' + tech.name">{{ tech.name }}</label>
         </div>
       </nav>
@@ -79,6 +79,7 @@ import { ref } from 'vue'
 import DevConfig from '~/developer.json';
 
 const config = ref(DevConfig)
+const { app: { baseURL } } = useRuntimeConfig()
 
 const techs = [
   { name: 'Vue', icon: 'vue' },
