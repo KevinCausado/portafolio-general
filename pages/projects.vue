@@ -22,10 +22,10 @@
       <!-- filter menu -->
       <nav id="filters" class="w-full flex-col">
 
-        <div v-for="tech in techs" :key="tech" class="flex items-center py-2">
-          <input type="checkbox" :id="tech" @click="filterProjects(tech)">
-          <img :id="'icon-tech-' + tech" :src="'/icons/techs/' + tech + '.svg'" alt="" class="tech-icon w-5 h-5 mx-4">
-          <label :for="tech" :id="'title-tech-' + tech">{{ tech }}</label>
+        <div v-for="tech in techs" :key="tech.name" class="flex items-center py-2">
+          <input type="checkbox" :id="tech.name" @click="filterProjects(tech.name)">
+          <img :id="'icon-tech-' + tech.name" :src="'/icons/techs/' + tech.icon + '.svg'" alt="" class="tech-icon w-5 h-5 mx-4">
+          <label :for="tech.name" :id="'title-tech-' + tech.name">{{ tech.name }}</label>
         </div>
       </nav>
     </div>
@@ -80,7 +80,19 @@ import DevConfig from '~/developer.json';
 
 const config = ref(DevConfig)
 
-const techs = ['React','Angular','Vue']
+const techs = [
+  { name: 'Vue', icon: 'vue' },
+  { name: 'Angular', icon: 'angular' },
+  { name: 'React', icon: 'react' },
+  { name: 'Nuxt.js', icon: 'nuxtjs' },
+  { name: 'Node.js', icon: 'nodejs' },
+  { name: 'Express.js', icon: 'expressjs' },
+  { name: 'TypeScript', icon: 'typescript' },
+  { name: 'Supabase', icon: 'supabase' },
+  { name: 'PostgreSQL', icon: 'postgresql' },
+  { name: 'Tailwind CSS', icon: 'tailwindcss' },
+  { name: 'Pinia', icon: 'pinia' },
+]
 const filters = ref(['all'])
 const showFilters = ref(true)
 const projects = ref(config.value.projects)
@@ -134,7 +146,7 @@ function filterProjectsBy(filters) {
   opacity: 1;
 }
 
-#title-tech.active {
+[id^="title-tech-"].active {
   color: white;
 }
 
