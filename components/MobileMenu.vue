@@ -70,8 +70,10 @@ function goHome(){
   }
 };
 
-const isActive = (route) => {
-  return route === route.path;
+const currentRoute = useRoute();
+
+const isActive = (path) => {
+  return currentRoute.path === path;
 };
 
 </script>
