@@ -17,7 +17,7 @@
                 </div>
                 <div id="links">
                     <div v-for="(source, key) in contact.direct.sources" :key="key" class="link">
-                        <img :src="'/icons/' + key + '.svg'" alt="">
+                        <img :src="baseURL + 'icons/' + key + '.svg'" alt="">
                         <a v-html="source" href="/" class="font-fira_retina text-menu-text hover:text-white"></a>
                     </div>
                 </div>
@@ -90,8 +90,10 @@ export default {
         }
     },
     setup() {
+        const runtimeConfig = useRuntimeConfig()
         return {
             contact: DevConfig.contacts,
+            baseURL: runtimeConfig.app.baseURL || '/',
         }
     },
     methods: {

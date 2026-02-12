@@ -79,7 +79,8 @@ import { ref } from 'vue'
 import DevConfig from '~/developer.json';
 
 const config = ref(DevConfig)
-const { app: { baseURL } } = useRuntimeConfig()
+const runtimeConfig = useRuntimeConfig()
+const baseURL = runtimeConfig.app.baseURL || '/'
 
 const techs = [
   { name: 'Vue', icon: 'vue' },
