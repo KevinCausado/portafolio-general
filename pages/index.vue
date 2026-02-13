@@ -18,15 +18,12 @@
         </span>
 			</div>
 
-			<!-- <div id="info">
-				<span class="action">
-					// complete the game to continue
-				</span>
+			<div id="info">
 				<span :class="{hide: isMobile}">
-					// you can also see it on my Github page
+					// también puedes ver mi perfil en Github
 				</span>
 				<span :class="{hide: !isMobile}">
-					// find my profile on Github:
+					// mi perfil en Github:
 				</span>
 				<p class="code">
 					<span class="identifier">
@@ -38,11 +35,11 @@
 					<span class="operator">
 						=
 					</span>
-					<a class="string" :href="'https://github.com/' + config.contacts.social.github.user">
+					<a class="string" :href="'https://github.com/' + config.contacts.social.github.user" target="_blank" rel="noopener noreferrer">
 						"https://github.com/{{ config.contacts.social.github.user }}"
 					</a>
 				</p>
-			</div> -->
+			</div>
 		</section>
 
 		<section data-aos="fade-up" class="game" v-if="!isMobile">
@@ -57,6 +54,8 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import DevConfig from '~/developer.json';
 
 const config = ref(DevConfig)
+
+useHead({ title: `${DevConfig.name} | ${DevConfig.role}` })
 
 const isMobile = ref(false)
 const loading = ref(false)

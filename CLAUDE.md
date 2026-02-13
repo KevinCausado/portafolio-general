@@ -12,6 +12,7 @@ Portfolio personal de desarrollador construido con **Nuxt 3**, basado en el dise
 - **Fonts:** Fira Code (Light, Regular, Retina, Medium, SemiBold, Bold, Variable)
 - **Animations:** AOS (Animate On Scroll) + CSS keyframes (typewriter)
 - **Syntax Highlighting:** highlight.js + @highlightjs/vue-plugin
+- **Contact Form:** Web3Forms (API key en ContactForm.vue)
 - **Testing:** Vitest
 - **Deploy:** GitHub Pages via `push-dir` (genera a `.output/public`, pushea a rama `gh-pages`)
 
@@ -29,33 +30,34 @@ Portfolio personal de desarrollador construido con **Nuxt 3**, basado en el dise
 ```
 ├── app.vue                  # Root component (MobileMenu + AppHeader + NuxtPage + AppFooter)
 ├── developer.json           # ARCHIVO DE DATOS CENTRAL — toda la info del portafolio
-├── nuxt.config.ts           # Config de Nuxt (baseURL: /portafolio-general/)
+├── nuxt.config.ts           # Config de Nuxt (baseURL, SEO meta tags, favicon)
 ├── tailwind.config.js       # Config de Tailwind CSS (colores, fuentes custom)
 ├── assets/
 │   ├── tailwind.css         # Estilos globales, @font-face, utilidades custom, media queries
 │   └── fonts/fira-code/     # Archivos .ttf de Fira Code
 ├── components/
 │   ├── AppHeader.vue        # Navbar desktop (hidden en mobile, visible lg+)
-│   ├── AppFooter.vue        # Footer con link a GitHub
+│   ├── AppFooter.vue        # Footer con link a GitHub y LinkedIn
 │   ├── MobileMenu.vue       # Menú hamburguesa para mobile/tablet (<lg)
-│   ├── SnakeGame.vue        # Juego de Snake interactivo (solo desktop)
+│   ├── SnakeGame.vue        # Juego de Snake interactivo (solo desktop, UI en español)
 │   ├── CommentedText.vue    # Texto con números de línea estilo código
-│   ├── ContactForm.vue      # Formulario de contacto
+│   ├── ContactForm.vue      # Formulario de contacto con Web3Forms
 │   ├── FormContentCode.vue  # Preview en vivo del formulario como código JS
-│   ├── GistSnippet.vue      # Muestra GitHub Gists con syntax highlighting
+│   ├── GistSnippet.vue      # Muestra GitHub Gists con syntax highlighting (no activo)
 │   ├── GithubCorner.vue     # Ribbon SVG animado (esquina GitHub)
-│   └── ProjectCard.vue      # Tarjeta de proyecto individual
+│   └── ProjectCard.vue      # Tarjeta de proyecto con imagen y baseURL
 ├── layouts/
 │   └── default.vue          # Layout wrapper (NO se usa, app.vue maneja el layout)
 ├── pages/
-│   ├── index.vue            # Página Home/Hello con hero + SnakeGame
-│   ├── about-me.vue         # Sección About Me con navegación tipo carpetas (Options API)
-│   ├── projects.vue         # Showcase de proyectos con filtro por tecnología (Composition API)
-│   └── contact-me.vue       # Formulario de contacto + info (Options API)
+│   ├── index.vue            # Página Home con hero + SnakeGame + link GitHub
+│   ├── about-me.vue         # Sección Acerca de mí con navegación tipo carpetas (Options API)
+│   ├── projects.vue         # Showcase de proyectos con filtro reactivo por tecnología
+│   └── contact-me.vue       # Formulario de contacto Web3Forms + info (Options API)
 ├── public/
+│   ├── favicon.svg          # Favicon SVG con iniciales KC
 │   ├── icons/               # SVGs (social, techs, console, gist, folder, arrow, etc.)
 │   │   └── techs/           # Iconos de tecnologías (vue, angular, react, nodejs, nuxtjs, etc.)
-│   └── images/projects/     # Screenshots de proyectos
+│   └── images/projects/     # Screenshots de proyectos (VIBRAI.png, INFOTEC.png, MULTIENTREGA.png)
 └── utils/
     └── github-api.js        # Integración con GitHub API para Gists
 ```
@@ -71,12 +73,26 @@ Portfolio personal de desarrollador construido con **Nuxt 3**, basado en el dise
 ### Data Flow
 - `developer.json` es la fuente de datos central. Todos los componentes importan de ahí.
 - No hay store global (Pinia/Vuex). Los datos se pasan como props o se importan directamente.
+- Proyectos tienen campo `img` con ruta a screenshot (ej: `/images/projects/VIBRAI.png`)
+- Redes sociales: solo GitHub y LinkedIn (las demás fueron eliminadas)
+
+### Contact Form
+- Usa **Web3Forms** para enviar emails desde el frontend (sin backend)
+- API key configurada en `components/ContactForm.vue` (reemplazar `TU_ACCESS_KEY_AQUI`)
+- Muestra estados: enviando, éxito (verde), error (rojo)
+- Usa `v-model` bidireccional con `contact-me.vue` para preview en vivo del código
 
 ### Layout System
 - `app.vue` es el layout real (NO usa `layouts/default.vue`)
 - Estructura: `MobileMenu` → `AppHeader` → `NuxtPage` → `AppFooter`
 - `AppHeader` solo visible en desktop (lg+: 1024px)
 - `MobileMenu` solo visible en mobile/tablet (<1024px)
+
+### SEO
+- Meta tags OG configurados en `nuxt.config.ts` (título, descripción, imagen, URL)
+- `useHead()` en cada página para títulos dinámicos por ruta
+- Favicon SVG en `public/favicon.svg`
+- `nuxt.config.ts` usa `import` (NO `require`) para importar developer.json
 
 ### Rutas de imágenes dinámicas (IMPORTANTE)
 - Las rutas **estáticas** (`src="/icons/arrow.svg"`) las resuelve Nuxt automáticamente con el baseURL
@@ -95,6 +111,13 @@ Portfolio personal de desarrollador construido con **Nuxt 3**, basado en el dise
   // En template:
   :src="baseURL + 'icons/' + name + '.svg'"
   ```
+- Para imágenes de proyectos en ProjectCard: `:src="baseURL + project.img.replace(/^\//, '')"`
+
+### Projects Page (Filtros reactivos)
+- Los filtros usan `reactive` + `computed` (NO manipulación directa del DOM)
+- Cada tech tiene `{ name, icon, checked }` — el checkbox usa `v-model="tech.checked"`
+- `filteredProjects` es un `computed` que filtra automáticamente al marcar/desmarcar
+- Los textos "No se encontraron proyectos" usan `v-if/v-else` (NO classList.toggle)
 
 ### Styling Patterns
 - Colores custom definidos en `tailwind.config.js`:
@@ -117,9 +140,10 @@ Portfolio personal de desarrollador construido con **Nuxt 3**, basado en el dise
 - Rama de deploy: `gh-pages` (generada por `push-dir`)
 
 ## Conventions
-- Idioma de la UI: español
+- Idioma de la UI: **español** (todos los textos visibles están en español)
 - Páginas: mezcla de Options API (`about-me.vue`, `contact-me.vue`) y Composition API (`index.vue`, `projects.vue`)
-- Componentes: mezcla de Options API (`SnakeGame.vue`) y Composition API (`AppHeader.vue`, `MobileMenu.vue`)
+- Componentes: mezcla de Options API (`SnakeGame.vue`, `FormContentCode.vue`) y Composition API (`AppHeader.vue`, `MobileMenu.vue`, `ContactForm.vue`)
 - IDs se usan extensivamente para styling (patrón heredado del proyecto original)
 - Las páginas usan `<main>` con clases específicas por página (`id="hello"`, `class="page"`)
 - Los iconos SVG de techs usan `fill="#607B96"` (color menu-text) con viewBox ~20x20
+- Imágenes de proyectos en mayúscula (VIBRAI.png, INFOTEC.png, MULTIENTREGA.png)

@@ -11,17 +11,17 @@
       <!-- Game Screen -->
       <div id="game-screen" ref="gameScreen"></div>
 
-      <button id="start-button" class="font-fira_retina" @click="startGame">start-game</button>
+      <button id="start-button" class="font-fira_retina" @click="startGame">iniciar-juego</button>
 
       <!-- Game Over -->
       <div id="game-over" class="hidden">
-        <span class="font-fira_retina text-greenfy bg-bluefy-dark h-12 flex items-center justify-center">GAME OVER!</span>
-        <button class="font-fira_retina text-menu-text text-sm flex items-center justify-center w-full py-6 hover:text-white" @click="startAgain">start-again</button>
+        <span class="font-fira_retina text-greenfy bg-bluefy-dark h-12 flex items-center justify-center">FIN DEL JUEGO!</span>
+        <button class="font-fira_retina text-menu-text text-sm flex items-center justify-center w-full py-6 hover:text-white" @click="startAgain">reiniciar</button>
       </div>
 
       <div id="congrats" class="hidden">
-        <span class="font-fira_retina text-greenfy bg-bluefy-dark h-12 flex items-center justify-center">WELL DONE!</span>
-        <button class="font-fira_retina text-menu-text text-sm flex items-center justify-center w-full py-6 hover:text-white" @click="startAgain">play-again</button>
+        <span class="font-fira_retina text-greenfy bg-bluefy-dark h-12 flex items-center justify-center">BIEN HECHO!</span>
+        <button class="font-fira_retina text-menu-text text-sm flex items-center justify-center w-full py-6 hover:text-white" @click="startAgain">jugar-de-nuevo</button>
       </div>
 
       <div id="console-menu" class="h-full flex flex-col items-end justify-between">
@@ -29,8 +29,8 @@
         <div>
 
         <div id="instructions" class="font-fira_retina text-sm text-white">
-          <p>// use your keyboard</p>
-          <p>// arrows to play</p>
+          <p>// usa las flechas</p>
+          <p>// del teclado para jugar</p>
 
           <div id="buttons" class="w-full flex flex-col items-center gap-1 pt-5">
 
@@ -57,7 +57,7 @@
 
         <!-- score board -->
         <div id="score-board" class="w-full flex flex-col pl-5">
-          <p class="font-fira_retina text-white pt-5">// food left</p>
+          <p class="font-fira_retina text-white pt-5">// comida restante</p>
 
           <div id="score" class="grid grid-cols-5 gap-5 justify-items-center pt-5 w-fit">
             <div class="food"></div>
@@ -76,7 +76,7 @@
       </div>
         <!-- skip -->
         <NuxtLink id="skip-btn" to="/about-me" class="font-fira_retina flex hover:bg-white/20">
-          skip
+          saltar
         </NuxtLink>
         
       </div>

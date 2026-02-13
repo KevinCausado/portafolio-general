@@ -23,9 +23,9 @@
       <nav id="filters" class="w-full flex-col">
 
         <div v-for="tech in techs" :key="tech.name" class="flex items-center py-2">
-          <input type="checkbox" :id="tech.name" @click="filterProjects(tech.name)">
-          <img :id="'icon-tech-' + tech.name" :src="baseURL + 'icons/techs/' + tech.icon + '.svg'" alt="" class="tech-icon w-5 h-5 mx-4">
-          <label :for="tech.name" :id="'title-tech-' + tech.name">{{ tech.name }}</label>
+          <input type="checkbox" :id="tech.name" v-model="tech.checked">
+          <img :src="baseURL + 'icons/techs/' + tech.icon + '.svg'" :alt="tech.name" class="tech-icon w-5 h-5 mx-4" :class="{ active: tech.checked }">
+          <label :for="tech.name" :class="{ 'text-white': tech.checked }">{{ tech.name }}</label>
         </div>
       </nav>
     </div>
@@ -37,7 +37,7 @@
       <!-- windows tab -->
       <div class="tab-height w-full hidden lg:flex border-bot items-center">
         <div class="flex items-center border-right h-full">
-          <p v-for="filter in filters" :key="filter" class="font-fira_regular text-menu-text text-sm px-3">{{ filter }};
+          <p v-for="filter in activeFilters" :key="filter" class="font-fira_regular text-menu-text text-sm px-3">{{ filter }};
           </p>
           <img src="/icons/close.svg" alt="" class="m-3">
         </div>
@@ -48,86 +48,61 @@
         <span class="text-white"> // </span>
         <p class="font-fira_regular text-white text-sm px-3">proyectos</p>
         <span class="text-menu-text"> / </span>
-        <p v-for="filter in filters" :key="filter" class="font-fira_regular text-menu-text text-sm px-3">{{ filter }};
+        <p v-for="filter in activeFilters" :key="filter" class="font-fira_regular text-menu-text text-sm px-3">{{ filter }};
         </p>
       </div>
 
       <!-- projects -->
-      <div id="projects-case" class="grid grid-cols-1 lg:grid-cols-2 max-w-full h-full overflow-scroll lg:self-center">
-        <div id="not-found"
-          class="hidden flex flex-col font-fira_retina text-menu-text my-5 h-full justify-center items-center">
-          <span class="flex justify-center text-4xl pb-3">
-            X__X
-          </span>
-          <span class="text-white flex justify-center text-xl">
-            No matching projects
-          </span>
-          <span class="flex justify-center">
-            for these technologies
-          </span>
-        </div>
-
-        <project-card v-for="(project, index) in projects" :index="index" :project="project" />
-
+      <div v-if="filteredProjects.length > 0" id="projects-case" class="grid grid-cols-1 lg:grid-cols-2 max-w-full h-full overflow-scroll lg:self-center">
+        <project-card v-for="(project, index) in filteredProjects" :key="index" :index="index" :project="project" />
+      </div>
+      <div v-else class="flex flex-col font-fira_retina text-menu-text my-5 h-full justify-center items-center">
+        <span class="flex justify-center text-4xl pb-3">X__X</span>
+        <span class="text-white flex justify-center text-xl">No se encontraron proyectos</span>
+        <span class="flex justify-center">para estas tecnologías</span>
       </div>
     </div>
   </main>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import DevConfig from '~/developer.json';
 
-const config = ref(DevConfig)
 const runtimeConfig = useRuntimeConfig()
 const baseURL = runtimeConfig.app.baseURL || '/'
 
-const techs = [
-  { name: 'Vue', icon: 'vue' },
-  { name: 'Angular', icon: 'angular' },
-  { name: 'React', icon: 'react' },
-  { name: 'Nuxt.js', icon: 'nuxtjs' },
-  { name: 'Node.js', icon: 'nodejs' },
-  { name: 'Express.js', icon: 'expressjs' },
-  { name: 'TypeScript', icon: 'typescript' },
-  { name: 'Supabase', icon: 'supabase' },
-  { name: 'PostgreSQL', icon: 'postgresql' },
-  { name: 'Tailwind CSS', icon: 'tailwindcss' },
-  { name: 'Pinia', icon: 'pinia' },
-]
-const filters = ref(['all'])
+useHead({ title: 'Proyectos | Kevin Causado' })
+
+const techs = reactive([
+  { name: 'Vue', icon: 'vue', checked: false },
+  { name: 'Angular', icon: 'angular', checked: false },
+  { name: 'React', icon: 'react', checked: false },
+  { name: 'Nuxt.js', icon: 'nuxtjs', checked: false },
+  { name: 'Node.js', icon: 'nodejs', checked: false },
+  { name: 'Express.js', icon: 'expressjs', checked: false },
+  { name: 'TypeScript', icon: 'typescript', checked: false },
+  { name: 'Supabase', icon: 'supabase', checked: false },
+  { name: 'PostgreSQL', icon: 'postgresql', checked: false },
+  { name: 'Tailwind CSS', icon: 'tailwindcss', checked: false },
+  { name: 'Pinia', icon: 'pinia', checked: false },
+])
+
 const showFilters = ref(true)
-const projects = ref(config.value.projects)
 
-function filterProjects(tech) {
-  document.getElementById('icon-tech-' + tech).classList.toggle('active')
-  document.getElementById('title-tech-' + tech).classList.toggle('active')
+const activeFilters = computed(() => {
+  const selected = techs.filter(t => t.checked).map(t => t.name)
+  return selected.length > 0 ? selected : ['all']
+})
 
-  const check = document.getElementById(tech)
-  if (check.checked) {
-    filters.value = filters.value.filter((item) => item !== 'all')
-    filters.value.push(tech)
-  } else {
-    filters.value = filters.value.filter((item) => item !== tech)
-    filters.value.length === 0 ? filters.value.push('all') : null
-  }
-  filters.value[0] == 'all' ? projects.value = config.value.projects : projects.value = filterProjectsBy(filters.value)
+const filteredProjects = computed(() => {
+  const allProjects = Object.values(DevConfig.projects)
+  if (activeFilters.value[0] === 'all') return allProjects
+  return allProjects.filter(project =>
+    activeFilters.value.some(filter => project.tech.includes(filter))
+  )
+})
 
-  if (projects.value.length === 0) {
-    document.getElementById('projects-case').classList.remove('grid')
-    document.getElementById('not-found').classList.remove('hidden')
-  } else {
-    document.getElementById('projects-case').classList.add('grid')
-    document.getElementById('not-found').classList.add('hidden')
-  }
-}
-
-function filterProjectsBy(filters) {
-  const projectArray = Object.values(config.value.projects)
-  return projectArray.filter(project => {
-    return filters.some(filter => project.tech.includes(filter))
-  })
-}
 </script>
 
 <style>
@@ -146,10 +121,6 @@ function filterProjectsBy(filters) {
 
 .tech-icon.active {
   opacity: 1;
-}
-
-[id^="title-tech-"].active {
-  color: white;
 }
 
 #view-button {

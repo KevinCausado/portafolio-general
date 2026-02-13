@@ -2,7 +2,7 @@
   <main v-if="!loading" id="about-me" class="page">
 
     <div id="mobile-page-title">
-      <h2>_about-me</h2>
+      <h2>_acerca-de-mi</h2>
     </div>
 
     <div id="page-menu" class="w-full flex">
@@ -284,6 +284,7 @@ export default {
    * In setup we can define the data we want to use in the component before the component is created.
    */
   setup() {
+    useHead({ title: 'Acerca de mí | Kevin Causado' })
     const runtimeConfig = useRuntimeConfig()
     return {
       config: DevConfig,

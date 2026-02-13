@@ -2,8 +2,8 @@
     <div id="project" :key="key" class="lg:mx-5">
 
         <span class="flex text-sm my-3">
-            <h3 v-if="index == null" class="text-purplefy font-fira_bold mr-3">Project {{ key + 1 }}</h3>
-            <h3 v-else class="text-purplefy font-fira_bold mr-3">Project {{ index + 1 }}</h3>
+            <h3 v-if="index == null" class="text-purplefy font-fira_bold mr-3">Proyecto {{ key + 1 }}</h3>
+            <h3 v-else class="text-purplefy font-fira_bold mr-3">Proyecto {{ index + 1 }}</h3>
             <h4 class="font-fira_retina text-menu-text"> // {{ project.title }}</h4>
         </span>
 
@@ -12,7 +12,7 @@
                 <div class="absolute flex right-3 top-3">
                 <!-- <img v-for="tech in project.tech" :key="tech" :src="'/icons/techs/filled/' + tech + '.svg'" alt="" class="w-6 h-6 mx-1 hover:opacity-75"> -->
                 </div>
-                <img id="showcase" :src="project.img" alt="" class="">
+                <img v-if="project.img" id="showcase" :src="baseURL + project.img.replace(/^\//, '')" :alt="project.title" class="">
             </div>
 
             <div class="pb-8 pt-6 px-6 border-top">
@@ -20,7 +20,7 @@
                 {{ project.description }}
                 </p>
                 <a id="view-button" :href="project.url" target="_blank" class="text-white font-fira_retina py-2 px-4 w-fit text-xs rounded-lg">
-                    view-project
+                    ver-proyecto
                 </a>
             </div>
         </div>
@@ -29,6 +29,8 @@
 
 <script setup>
 const { project, key, index } = defineProps(['project', 'key', 'index'])
+const runtimeConfig = useRuntimeConfig()
+const baseURL = runtimeConfig.app.baseURL || '/'
 </script>
 
 <style scoped>

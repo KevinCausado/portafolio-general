@@ -77,41 +77,6 @@
                 "title": "Perfil de LinkedIn",
                 "url": "https://www.linkedin.com/in/kevin-causado/",
                 "user": "kevin-causado"
-            },
-            "facebook": {
-                "title": "Facebook profile",
-                "url": "https://facebook.com/",
-                "user": "username"
-            },
-            "twitter": {
-                "title": "Twitter account",
-                "url": "https://twitter.com/",
-                "user": "username"
-            }
-        },
-        "find_me_also_in": {
-            "title": "find-me-also-in",
-            "sources": {
-                "youtube": {
-                    "title": "YouTube channel",
-                    "url": "https://www.youtube.com/",
-                    "user": "username"
-                },
-                "gurushots": {
-                    "title": "GuruShots profile",
-                    "url": "https://gurushots.com/",
-                    "user": "username"
-                },
-                "instagram": {
-                    "title": "Instagram account",
-                    "url": "https://instagram.com/",
-                    "user": "username"
-                },
-                "twitch": {
-                    "title": "Twitch profile",
-                    "url": "https://twitch.com/",
-                    "user": "username"
-                }
             }
         }
     },
@@ -123,21 +88,21 @@
         "1": {
             "title": "VibrAi - Dashboard de Sensores",
             "description": "Dashboard de análisis avanzado para visualizar lecturas de múltiples sensores por activo, mostrando su estado y permitiendo la configuración de perfiles de vibración. Incluye autenticación, roles de usuario y actualizaciones en tiempo real.",
-            
+            "img": "/images/projects/VIBRAI.png",
             "tech": ["Vue", "Nuxt.js", "Pinia", "Supabase", "PostgreSQL", "Tailwind CSS"],
             "url": "https://vibrai.miobox.io/"
         },
         "2": {
             "title": "Salud System - Frontend App",
             "description": "Desarrollo y mantenimiento del frontend para una aplicación de salud, enfocado en optimizar la carga y el rendimiento. Integración de APIs RESTful para la sincronización de datos y la implementación de formularios dinámicos para gestión contable.",
-            
+            "img": "/images/projects/INFOTEC.png",
             "tech": ["Angular", "TypeScript", "RESTful API"],
             "url": "http://167.114.33.38:8076/#/zafiro"
         },
         "3": {
             "title": "Plataforma Multientrega (Panamá)",
             "description": "Desarrollo backend para una plataforma logística. Mis responsabilidades incluyeron la implementación de nuevas funcionalidades críticas para la operación y el soporte técnico continuo de la plataforma.",
-            
+            "img": "/images/projects/MULTIENTREGA.png",
             "tech": ["Node.js", "Express.js", "Backend","Angular"],
             "url": "https://multientregapanama.com/"
         }

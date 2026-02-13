@@ -2,7 +2,7 @@
     <main id="contact-me" class="page">
 
         <div id="mobile-page-title">
-            <h2>_contact-me</h2>
+            <h2>_contacto</h2>
         </div>
 
         <div id="page-menu" class="w-full h-full flex flex-col border-right">
@@ -47,7 +47,7 @@
         <div class="tab-height w-full hidden lg:flex border-right border-bot items-center">
 
                 <div class="flex items-center border-right h-full">
-                    <p class="font-fira_regular text-menu-text text-sm px-3">contacts</p>
+                    <p class="font-fira_regular text-menu-text text-sm px-3">contacto</p>
                     <img src="/icons/close.svg" alt="" class="m-3">
                 </div>
 
@@ -58,12 +58,12 @@
         
                 <div id="left" class="h-full w-full flex flex-col border-right items-center">
                     
-                    <ContactForm :name="name" :email="email" :message="message" />
+                    <ContactForm v-model:name="name" v-model:email="email" v-model:message="message" />
 
                 </div>
 
                 <div id="right" class="h-full w-full hidden lg:flex">
-                    
+
                     <div class="form-content">
                         <FormContentCode :name="name" :email="email" :message="message" />
                     </div>
@@ -90,6 +90,7 @@ export default {
         }
     },
     setup() {
+        useHead({ title: 'Contacto | Kevin Causado' })
         const runtimeConfig = useRuntimeConfig()
         return {
             contact: DevConfig.contacts,
@@ -112,34 +113,9 @@ export default {
         }
     },
     mounted(){
-
-        const nameInput = document.getElementById('name-input');
-        const emailInput = document.getElementById('email-input');
-        const messageInput = document.getElementById('message-input');
-
-        nameInput.addEventListener('input', (event) => {
-            const nameValue = document.getElementById('name-value')
-            nameValue.innerHTML = event.target.value;
-        })
-
-        emailInput.addEventListener('input', (event) => {
-            const emailValue = document.getElementById('email-value')
-            emailValue.innerHTML = event.target.value;
-        })
-
-        messageInput.addEventListener('input', (event) => {
-            const messageValue = document.getElementById('message-value')
-            messageValue.innerHTML = event.target.value;
-        })
-
-        /**
-         * * Close all submenus
-         * ! This is a temporary solution.
-         * ! This is needed because when the page is loaded, height style on #links are not applied.
-         */
         const links = document.getElementsByClassName('submenu');
         for (let i = 0; i < links.length; i++) {
-            if(window.innerWidth > 1024){ 
+            if(window.innerWidth > 1024){
                 links[i].querySelector("#links").style.display = "block";
                 links[i].querySelector(".arrow").style.transform = "rotate(90deg)";
             } else {

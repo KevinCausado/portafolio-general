@@ -1,51 +1,86 @@
 <template>
-    <form id="contact-form" class="text-sm">
+    <form id="contact-form" class="text-sm" @submit.prevent="submitForm">
+        <input type="hidden" name="access_key" :value="accessKey">
         <div class="flex flex-col">
             <label for="name-input" class="mb-3">_nombre:</label>
-            <input type="text" id="name-input" name="name" :placeholder="name" class="p-2 mb-5 placeholder-slate-600" required>
+            <input type="text" id="name-input" name="name" v-model="formName" placeholder="Kevin Causado" class="p-2 mb-5 placeholder-slate-600" required>
         </div>
         <div class="flex flex-col">
             <label for="email-input" class="mb-3">_email:</label>
-            <input type="email" id="email-input" name="email" :placeholder="email" class="p-2 mb-5 placeholder-slate-600" required>
+            <input type="email" id="email-input" name="email" v-model="formEmail" placeholder="email@ejemplo.com" class="p-2 mb-5 placeholder-slate-600" required>
         </div>
         <div class="flex flex-col">
             <label for="message-input" class="mb-3">_mensaje:</label>
-            <textarea id="message-input" name="message" :placeholder="message" class="placeholder-slate-600" required></textarea>
+            <textarea id="message-input" name="message" v-model="formMessage" placeholder="Escribe tu mensaje..." class="placeholder-slate-600" required></textarea>
         </div>
-        <button id="submit-button" type="submit" class="py-2 px-4">enviar-mensaje</button>
+        <button id="submit-button" type="submit" class="py-2 px-4" :disabled="sending">
+          {{ sending ? 'enviando...' : 'enviar-mensaje' }}
+        </button>
+
+        <p v-if="statusMessage" class="mt-3 text-sm" :class="statusOk ? 'text-greenfy' : 'text-red-400'">
+          {{ statusMessage }}
+        </p>
     </form>
 </template>
 
-<script>
+<script setup>
+import { ref, watch } from 'vue'
 
+const props = defineProps({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  message: { type: String, required: true }
+})
 
-export default {
-    name: 'ContactForm',
-    props: {
-        name: {
-            type: String,
-            required: true
-        },
-        email: {
-            type: String,
-            required: true
-        },
-        message: {
-            type: String,
-            required: true
-        }
-    },
-    mounted() {
-        document.getElementById("contact-form").addEventListener("submit", function(event) {
-            event.preventDefault();
-            const name = document.querySelector('input[name="name"]').value;
-            const email = document.querySelector('input[name="email"]').value;
-            const message = document.querySelector('textarea[name="message"]').value;
-            
-            // Here the code to send the email
-            
-        });
+const emit = defineEmits(['update:name', 'update:email', 'update:message'])
+
+const accessKey = ref('TU_ACCESS_KEY_AQUI') // Reemplazar con tu API key de https://web3forms.com
+const formName = ref('')
+const formEmail = ref('')
+const formMessage = ref('')
+const sending = ref(false)
+const statusMessage = ref('')
+const statusOk = ref(false)
+
+watch(formName, (val) => emit('update:name', val))
+watch(formEmail, (val) => emit('update:email', val))
+watch(formMessage, (val) => emit('update:message', val))
+
+async function submitForm() {
+  sending.value = true
+  statusMessage.value = ''
+
+  try {
+    const response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_key: accessKey.value,
+        name: formName.value,
+        email: formEmail.value,
+        message: formMessage.value,
+        subject: `Nuevo mensaje de ${formName.value} desde tu portafolio`,
+      })
+    })
+
+    const data = await response.json()
+
+    if (data.success) {
+      statusOk.value = true
+      statusMessage.value = 'Mensaje enviado correctamente.'
+      formName.value = ''
+      formEmail.value = ''
+      formMessage.value = ''
+    } else {
+      statusOk.value = false
+      statusMessage.value = 'Error al enviar. Intenta de nuevo.'
     }
+  } catch {
+    statusOk.value = false
+    statusMessage.value = 'Error de conexión. Intenta de nuevo.'
+  } finally {
+    sending.value = false
+  }
 }
 </script>
 

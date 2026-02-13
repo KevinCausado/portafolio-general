@@ -5,9 +5,9 @@
         
 
         <!-- github user -->
-        <NuxtLink :to="social.github.url + social.github.user" target="_blank" class="hidden md:flex items-center px-5 border-left">
+        <NuxtLink :to="social.github.url + social.github.user" target="_blank" rel="noopener noreferrer" class="hidden md:flex items-center px-5 border-left" aria-label="Perfil de GitHub">
             @{{ social.github.user }}
-            <img src="/icons/social/github.svg" alt="github"/>
+            <img src="/icons/social/github.svg" alt="GitHub"/>
         </NuxtLink>
 
     </footer>
