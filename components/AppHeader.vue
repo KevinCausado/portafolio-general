@@ -1,7 +1,7 @@
 <template>
     <header id="navbar" class="w-full hidden lg:flex flex-col">
       <nav class="w-full flex justify-between border-bot overflow-hidden">
-        <github-corner url="https://github.com/alexdeploy/developer-portfolio-v2" />
+        <github-corner url="https://github.com/KevinCausado/portafolio-general" />
           <div class="flex">
             <NuxtLink id="nav-logo" to="/">
               {{ config.logo_name }}
