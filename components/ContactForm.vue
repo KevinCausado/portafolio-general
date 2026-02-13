@@ -34,7 +34,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:name', 'update:email', 'update:message'])
 
-const accessKey = ref('TU_ACCESS_KEY_AQUI') // Reemplazar con tu API key de https://web3forms.com
+const accessKey = ref('57562c7c-4834-4c09-88ba-8768a1814137')
 const formName = ref('')
 const formEmail = ref('')
 const formMessage = ref('')

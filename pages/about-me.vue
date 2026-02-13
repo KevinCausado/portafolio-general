@@ -268,6 +268,14 @@
   padding: 0px 25px;
 }
 
+#contact-sources a,
+#contacts a {
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 </style>
 
 <script>
