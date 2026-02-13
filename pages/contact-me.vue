@@ -23,21 +23,21 @@
                 </div>
             </div>
 
-            <!-- find me also in -->
-            <!-- <div id="find-me-in" class="submenu border-top">
-                <div class="title" @click="open('find-me-in')">
+            <!-- whatsapp -->
+            <div id="whatsapp" class="submenu border-top">
+                <div class="title" @click="open('whatsapp')">
                     <img class="arrow" src="/icons/arrow.svg" alt="">
                     <h3>
-                        find-me-also-in
+                        whatsapp
                     </h3>
                 </div>
                 <div id="links">
-                    <div v-for="(source, key) in contact.find_me_also_in.sources" :key="key" class="link">
-                        <img src="/icons/link.svg" alt="">
-                        <a :href="source.url + source.user" class="font-fira_retina text-menu-text hover:text-white" target="_blank">{{ source.title }}</a>
+                    <div class="link">
+                        <img :src="baseURL + 'icons/phone.svg'" alt="">
+                        <a href="https://wa.me/573152089391" target="_blank" rel="noopener noreferrer" class="font-fira_retina text-menu-text hover:text-white">Enviar mensaje</a>
                     </div>
                 </div>
-            </div> -->
+            </div>
 
         </div>
             

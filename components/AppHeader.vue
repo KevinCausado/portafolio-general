@@ -20,14 +20,9 @@
             </NuxtLink>
           </div>
 
-           <a
-            id="nav-link-contact"
-            href="https://wa.me/573152089391"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            _contactame
-          </a>
+          <NuxtLink id="nav-link-contact" to="/contact-me" :class="{ active: isActive('/contact-me') }">
+            _contacto
+          </NuxtLink>
       
       </nav>
 
