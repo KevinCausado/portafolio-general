@@ -1,0 +1,1 @@
+import{_ as c,c as s,o as a,b as e,I as _,J as r,K as f}from"./Doq0FXEq.js";const l={};function p(o,d){const n=r,t=f;return a(),s("div",null,[e(n),_(o.$slots,"default"),e(t)])}const i=c(l,[["render",p]]);export{i as default};
